@@ -6,4 +6,4 @@
 * es5-shim.js是为了让旧的浏览器支持ECMAScript5的特性
 
 
-# $.deferred
+# [$.deferred](./$.deferred/README.md)
