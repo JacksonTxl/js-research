@@ -1,0 +1,22 @@
+{
+  "name": "research",
+  "version": "1.0.0",
+  "description": "### css样式类型  ### ployfill 和 shim   * 需要考虑ployfill的性能解析问题，可能会出现解析速度过慢而阻塞其他页面逻辑的执行 * ployfill是为了让旧的浏览器支持解析HTML5的<picture>标签",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacksonTxl/js-research.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JacksonTxl/js-research/issues"
+  },
+  "homepage": "https://github.com/JacksonTxl/js-research#readme",
+  "devDependencies": {
+    "forever": "^0.15.3"
+  }
+}
