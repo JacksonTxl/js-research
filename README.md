@@ -6,12 +6,6 @@
 * ployfill是为了让旧的浏览器支持解析HTML5的<picture>标签
 
 
-
-
-
 ### canvas 
 * 绘制时钟
 
-
-
-### [$.deferred](./$.deferred/README.md)
