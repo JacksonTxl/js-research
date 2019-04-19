@@ -42,13 +42,30 @@ function selectionSort (arr) {
 	}
 }
 
+/**
+ * 插入排序
+ * @param arr
+ */
+function insertionSort (arr) {
+	let length = arr.length;
+	for (let i = 1; i <= length - 1; i++) {
+		let temp = arr[i];
+		let j = i;
+		while(j > 0 && arr[j - 1] >= temp){
+			arr[j] = arr[j - 1];
+			j--;
+		}
+		arr[j] = temp;
+		console.log(arr);
+	}
+}
 
 /**
  * 测试排序方法
  */
 function testSort () {
 	let arr = [10, 8, 3, 2, 2, 4, 9, 5, 4, 3];
-	selectionSort(arr);
+	insertionSort(arr);
 	console.log(arr);
 }
 testSort();
