@@ -7,7 +7,7 @@
  *  2019-04-19 09:30
  */
 /**
- * 冒泡排序
+ * 冒泡排序 慢
  * @param arr
  */
 function bubbleSort (arr) {
@@ -25,7 +25,7 @@ function bubbleSort (arr) {
 }
 
 /**
- * 选择排序
+ * 选择排序 中
  * @param arr
  */
 function selectionSort (arr) {
@@ -43,7 +43,7 @@ function selectionSort (arr) {
 }
 
 /**
- * 插入排序
+ * 插入排序 方法最快
  * @param arr
  */
 function insertionSort (arr) {
@@ -61,11 +61,33 @@ function insertionSort (arr) {
 }
 
 /**
+ * 快速排序
+ * @param arr
+ * @returns {*}
+ */
+function qSort(arr) {
+	if (arr.length === 0) {
+		return [];
+	}
+	var left = [];
+	var right = [];
+	var pivot = arr[0];
+	for (var i = 1; i < arr.length; i++) {
+		if (arr[i] < pivot) {
+			left.push(arr[i]);
+		} else {
+			right.push(arr[i]);
+		}
+	}
+	return qSort(left).concat(pivot, qSort(right));
+}
+
+/**
  * 测试排序方法
  */
 function testSort () {
 	let arr = [10, 8, 3, 2, 2, 4, 9, 5, 4, 3];
-	insertionSort(arr);
-	console.log(arr);
+	const arrm = qSort(arr);
+	console.log(arrm);
 }
 testSort();
