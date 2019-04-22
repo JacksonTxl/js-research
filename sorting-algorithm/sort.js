@@ -83,6 +83,15 @@ function qSort(arr) {
 }
 
 /**
+ * 随机吃饭
+ * @returns {string}
+ */
+function dinnerFind (arr, num) {
+	const index = Math.floor(Math.random() * num);
+	return arr[index];
+}
+
+/**
  * 测试排序方法
  */
 function testSort () {
@@ -90,4 +99,20 @@ function testSort () {
 	const arrm = qSort(arr);
 	console.log(arrm);
 }
-testSort();
+
+/**
+ * 吃饭结果
+ */
+function dinnerResult () {
+	const sort = ['蒸菜', '重庆小面', '面必居', '饭小餐', '楼下炒菜', '罗森'];
+	const result1 = dinnerFind(sort, 6);
+	const result2 = dinnerFind(sort, 6);
+
+	localStorage.removeItem('dinner');
+	localStorage.setItem('dinner', result1);
+
+	document.getElementById('selectSort').innerHTML(sort.join(','));
+
+	console.log(dinnerFind([result1, result2], 2));
+}
+dinnerResult();
