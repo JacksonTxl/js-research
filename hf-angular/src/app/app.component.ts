@@ -218,7 +218,12 @@ export class AppComponent implements OnInit {
     } else if (pingheValue === 1) {
       if (index < 8 ) {
         let obj = this.generateObj(index);
-        obj = this.generateRandomNumber(index, 8, 10, obj);
+        const flag = this.validBodyTypes(index);
+        if (flag) {
+          obj = this.generateRandomNumber(index, 8, 10, obj);
+        } else {
+          obj = this.generateRandomNumber(index, 4, 8, obj);
+        }
         return obj;
       } else {
         let obj = this.generateObj(index);
@@ -228,7 +233,12 @@ export class AppComponent implements OnInit {
     } else if (pingheValue === 0) {
       if (index < 8 ) {
         let obj = this.generateObj(index);
-        obj = this.generateRandomNumber(index, 10, 20, obj);
+        const flag = this.validBodyTypes(index);
+        if (flag) {
+          obj = this.generateRandomNumber(index, 10, 20, obj);
+        } else {
+          obj = this.generateRandomNumber(index, 4, 8, obj);
+        }
         return obj;
       } else {
         let obj = this.generateObj(index);
@@ -238,6 +248,31 @@ export class AppComponent implements OnInit {
     }
 
 
+  }
+
+  /**
+   * 校验
+   * 当平和质选择否的时候，其余体质最多出现两个是包含基本是，阴阳体质不能同时出现是
+   * @param i
+   */
+  validBodyTypes(i): boolean {
+    let bodyTypeCount = 0;
+    let isYang = false;
+    this.bodyTypes.forEach((element, index) => {
+      if (element.result && element.result.value !== 0) {
+        bodyTypeCount++;
+        if (index === 1 || index === 2) {
+          isYang = true;
+        }
+      }
+    });
+    if (bodyTypeCount < 2 && !isYang) {
+      return true;
+    } else if (bodyTypeCount < 2 && (isYang && i !== 1 && i !== 2 )) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
@@ -282,15 +317,25 @@ export class AppComponent implements OnInit {
         obj = this.valuationObj(obj, num0);
         obj = this.generateRandomNumber(index, min, max, obj);
       } else {
-        const modNum = -parseInt(values[0].toString(), 10)
-          + parseInt((values[1] || '1').toString(), 10)
-          + parseInt((values[2] || '1').toString(), 10)
-          + parseInt((values[3] || '1').toString(), 10)
-          + parseInt((values[4] || '1').toString(), 10)
-          + 24 - min;
-        const randomNum = MathUtil.randomBoth(1, Math.floor(modNum / unFixedCount) > 5 ? 5 : Math.floor(modNum / unFixedCount));
-        obj = this.valuationObj(obj, randomNum);
-        obj = this.generateRandomNumber(index, min, max, obj);
+        const modNum = parseInt(values[0].toString(), 10)
+          - parseInt((values[1] || '1').toString(), 10)
+          - parseInt((values[2] || '1').toString(), 10)
+          - parseInt((values[3] || '1').toString(), 10)
+          - parseInt((values[4] || '1').toString(), 10)
+          + 24;
+        if (modNum === min) {
+          obj = this.valuationObj(obj, 1, true);
+        } else if (modNum > min && modNum <= max) {
+          const randomNum = MathUtil.randomBoth(1,
+            Math.floor((modNum - min) / unFixedCount) > 5 ? 5 : Math.floor((modNum - min) / unFixedCount));
+          obj = this.valuationObj(obj, randomNum);
+          obj = this.generateRandomNumber(index, min, max, obj);
+        }  else if (modNum > min && modNum > max) {
+          const randomNum = MathUtil.randomBoth(2,
+            Math.floor((modNum - min) / unFixedCount) > 5 ? 5 : Math.floor((modNum - min) / unFixedCount));
+          obj = this.valuationObj(obj, randomNum);
+          obj = this.generateRandomNumber(index, min, max, obj);
+        }
       }
     }
     return obj;
@@ -300,6 +345,7 @@ export class AppComponent implements OnInit {
    * 将生成的对象回填到对应的问题调查和体质类型
    * @param obj
    * @param item
+   * @param index
    */
   backFillQuestionAndBody(obj, item, index) {
     let totalScore = 0;
@@ -542,11 +588,19 @@ export class AppComponent implements OnInit {
     return obj;
   }
 
-  valuationObj(obj, value): object {
-    for (const key in obj) {
-      if (!obj[key] && obj.hasOwnProperty(key)) {
-        obj[key] = value;
-        return obj;
+  valuationObj(obj, value, all?): object {
+    if (all) {
+      for (const key in obj) {
+        if (!obj[key] && obj.hasOwnProperty(key)) {
+          obj[key] = value;
+        }
+      }
+    } else {
+      for (const key in obj) {
+        if (!obj[key] && obj.hasOwnProperty(key)) {
+          obj[key] = value;
+          return obj;
+        }
       }
     }
   }
