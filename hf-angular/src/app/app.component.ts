@@ -181,7 +181,7 @@ export class AppComponent implements OnInit {
     // 第一步，随机生成各项体质分数，自动回填 体质区间[4, 8][5, 8] 否， (8, 11) 基本是, [11, 20][11, 25] 是
     this.bodyTypes.map((item, index) => {
       const obj = this.returnTypeResult(item, index);
-      this.backFillQuestionAndBody(obj, item);
+      this.backFillQuestionAndBody(obj, item, index);
       if (item.score >= 11 && index !== 8) {
         item.result = this.typeResults[0];
       } else if (item.score > 8 && index !== 8) {
@@ -190,7 +190,6 @@ export class AppComponent implements OnInit {
         item.result = this.typeResults[2];
       }
     });
-
   }
 
   /**
@@ -212,7 +211,9 @@ export class AppComponent implements OnInit {
         obj = this.generateRandomNumber(index, 4, 8, obj);
         return obj;
       } else {
-        return MathUtil.randomBoth(17, 29);
+        let obj = this.generateObj(index);
+        obj = this.generateRandomNumber(index, 17, 25, obj);
+        return obj;
       }
     } else if (pingheValue === 1) {
       if (index < 8 ) {
@@ -220,7 +221,9 @@ export class AppComponent implements OnInit {
         obj = this.generateRandomNumber(index, 8, 10, obj);
         return obj;
       } else {
-        return MathUtil.randomBoth(17, 29);
+        let obj = this.generateObj(index);
+        obj = this.generateRandomNumber(index, 17, 25, obj);
+        return obj;
       }
     } else if (pingheValue === 0) {
       if (index < 8 ) {
@@ -228,7 +231,9 @@ export class AppComponent implements OnInit {
         obj = this.generateRandomNumber(index, 10, 20, obj);
         return obj;
       } else {
-        return MathUtil.randomExceptMax(9, 17);
+        let obj = this.generateObj(index);
+        obj = this.generateRandomNumber(index, 5, 17, obj);
+        return obj;
       }
     }
 
@@ -241,21 +246,23 @@ export class AppComponent implements OnInit {
     let fixedCount = 0;
     let unFixedCount = 0;
     let fixedValue = 0;
-    if (index !== 8) {
-      values.forEach(item => {
-        if (item) {
-          fixedValue = fixedValue + parseInt(item.toString(), 10);
-          fixedCount++;
-        }
-      });
-      unFixedCount = values.length - fixedCount;
-      if (unFixedCount === 0 ) {
-        return obj;
+
+    values.forEach(item => {
+      if (item) {
+        fixedValue = fixedValue + parseInt(item.toString(), 10);
+        fixedCount++;
       }
+    });
+    unFixedCount = values.length - fixedCount;
+    if (unFixedCount === 0 ) {
+      return obj;
+    }
+
+    if (index !== 8) {
       if ((fixedValue + unFixedCount) > max || (fixedValue >= max && fixedCount < values.length)) {
         this.display = true;
         this.errMsgs = '固定值大于平和体质勾选范围最大值！';
-        return;
+        return obj;
       } else if (fixedValue === max && unFixedCount === 0) {
         return obj;
       } else if ((fixedValue + unFixedCount) === max && unFixedCount > 0) {
@@ -263,12 +270,28 @@ export class AppComponent implements OnInit {
         obj = this.generateRandomNumber(index, min, max, obj);
       } else {
         const modNum = max - fixedValue - unFixedCount;
-        const randomNum = MathUtil.randomBoth(1, modNum);
+        const randomNum = MathUtil.randomBoth(1, modNum > 5 ? 5 : modNum);
         obj = this.valuationObj(obj, randomNum);
         obj = this.generateRandomNumber(index, min, max, obj);
       }
     } else {
-      
+    //  1 2 4 5 13      9 - 17 17-25
+    //  生成第一个数字
+      if (!values[0]) {
+        const num0 = MathUtil.randomBoth(1, 5);
+        obj = this.valuationObj(obj, num0);
+        obj = this.generateRandomNumber(index, min, max, obj);
+      } else {
+        const modNum = -parseInt(values[0].toString(), 10)
+          + parseInt((values[1] || '1').toString(), 10)
+          + parseInt((values[2] || '1').toString(), 10)
+          + parseInt((values[3] || '1').toString(), 10)
+          + parseInt((values[4] || '1').toString(), 10)
+          + 24 - min;
+        const randomNum = MathUtil.randomBoth(1, Math.floor(modNum / unFixedCount) > 5 ? 5 : Math.floor(modNum / unFixedCount));
+        obj = this.valuationObj(obj, randomNum);
+        obj = this.generateRandomNumber(index, min, max, obj);
+      }
     }
     return obj;
   }
@@ -278,13 +301,21 @@ export class AppComponent implements OnInit {
    * @param obj
    * @param item
    */
-  backFillQuestionAndBody(obj, item) {
+  backFillQuestionAndBody(obj, item, index) {
     let totalScore = 0;
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         this.questions[parseInt(key, 10)].score = this.scores[obj[key] - 1];
         totalScore += obj[key];
       }
+    }
+    if (index === 8) {
+      const values = Object.values(obj);
+      totalScore = parseInt(values[0].toString(), 10)
+        - parseInt(values[1].toString(), 10)
+        - parseInt(values[2].toString(), 10)
+        - parseInt(values[3].toString(), 10)
+        - parseInt(values[4].toString(), 10) + 24;
     }
     item.score = totalScore;
   }
