@@ -266,9 +266,9 @@ export class AppComponent implements OnInit {
         }
       }
     });
-    if (bodyTypeCount < 2 && !isYang) {
+    if (bodyTypeCount < 1 && !isYang) {
       return true;
-    } else if (bodyTypeCount < 2 && (isYang && i !== 1 && i !== 2 )) {
+    } else if (bodyTypeCount < 1 && (isYang && i !== 1 && i !== 2 )) {
       return true;
     } else {
       return false;
