@@ -1,3 +1,5 @@
+
+// 贪心算法
 const allMoney = [100, 50, 20, 5, 1];  // 表示我们手上有的面值
 function changeMoney(n, allMoney) {
   const length = allMoney.length;
@@ -15,6 +17,30 @@ function changeMoney(n, allMoney) {
   
   return result;
 }
-
 const result = changeMoney(126, allMoney);
 console.log(result);   // [1, 0, 1, 1, 1]
+
+
+
+// 获取最大的数字拼接
+
+const nums = [32, 94, 128, 1286, 6, 71];
+
+function getBigNum(nums) {
+  nums.sort((a, b) => {
+    const ab = `${a}${b}`;
+    const ba = `${b}${a}`;
+    
+    if(ab > ba) {
+      return -1;   // ab大，a放前面
+    } else {
+      return 1;  
+    }
+  });
+  
+  return nums;
+}
+
+const res = getBigNum(nums);
+console.log(res);    // [94, 71, 6, 32, 1286, 128]
+
