@@ -1,5 +1,5 @@
 <!-- 浏览器渲染页面详解 -->
-[https://juejin.im/post/5e572a34518825490f722b9e](https://juejin.im/post/5e572a34518825490f722b9e)
+[https://juejin.im/post/5e572a34518825490f722b9e](浏览器渲染页面详解)
 
 Chrome 基本架构介绍
 整体架构
