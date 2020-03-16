@@ -15,4 +15,3 @@ var obj = {
   }
   
   obj.func();    // 小小飞
-
