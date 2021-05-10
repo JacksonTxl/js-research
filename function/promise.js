@@ -121,14 +121,30 @@ class MyPromise {
   }
 }
 
-const myPromise = new MyPromise((resolve, reject) => {
-  setTimeout(function () {
-    resolve(1)
-  }, 1000)
-})
-console.log('start promise')
-myPromise.then(res => {
-  console.log(res)
+// const myPromise = new MyPromise((resolve, reject) => {
+//   setTimeout(function () {
+//     resolve(1)
+//   }, 1000)
+// })
+// console.log('start promise')
+// myPromise.then(res => {
+//   console.log(res)
+// })
+function testSetTimeOut(){
+  return new Promise(resolve => {
+    setTimeout(function(){
+      resolve('1')
+    }, 1000)
+  })
+
+}
+async function test1(){
+  const result = await testSetTimeOut()
+  console.log(result)
+}
+console.log('0')
+test1().then(res => {
+  console.log('2')
 })
 // myPromise
 //   .then(res => {
