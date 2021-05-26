@@ -4,18 +4,37 @@ module.exports = {
   semi: false,
   htmlWhitespaceSensitivity: 'ignore',
   endOfLine: 'auto',
+  trailingComma: 'none',
   overides: [
     {
       files: '*.d.ts',
       options: {
-        singleQuote: false,
-      },
+        singleQuote: false
+      }
     },
     {
       files: '*.js',
       options: {
-        semi: true,
-      },
+        semi: true
+      }
     },
-  ],
+    {
+      files: ['*.html'],
+      options: {
+        parser: 'html'
+      }
+    },
+    {
+      files: ['*.css'],
+      options: {
+        parser: 'css'
+      }
+    },
+    {
+      files: ['*.less'],
+      options: {
+        parser: 'less'
+      }
+    }
+  ]
 }

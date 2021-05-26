@@ -1,58 +1,71 @@
 <!DOCTYPE html>
+
 <head></head>
-<body>
 <style>
-.heart-through {
-  font-size: 100px;
-  position: relative;
-  transform-style: preserve-3d;
-  text-align: center;
-}
-.arrow {
-  position: absolute;
-  left: 1rem; right: 1rem; top: 0; bottom: 0;
-  height: 20px;
-  margin: auto;
-  background-color: currentColor;
-  clip-path: polygon(0 40%, calc(100% - 12px) 40%, calc(100% - 16px) 0%, 100% 50%, calc(100% - 16px) 100%, calc(100% - 12px) 60%, 0 60%);
-}
-.heart {
+  .heart-through {
+    font-size: 100px;
+    position: relative;
+    transform-style: preserve-3d;
+    text-align: center;
+  }
+
+  .arrow {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    top: 0;
+    bottom: 0;
+    height: 20px;
+    margin: auto;
+    background-color: currentColor;
+    clip-path: polygon(0 40%, calc(100% - 12px) 40%, calc(100% - 16px) 0%, 100% 50%, calc(100% - 16px) 100%, calc(100% - 12px) 60%, 0 60%);
+  }
+
+  .heart {
     display: inline-block;
     transform: rotateY(-1deg);
-    color:red;
-}
+    color: red;
+  }
 
-.text-through {
+  .text-through {
     display: flex;
     position: relative;
     transform-style: preserve-3d;
     justify-content: center;
-    color:red;
+    color: red;
     padding-bottom: 6px;
-}
-.text-through span {
+  }
+
+  .text-through span {
     color: initial;
     font-size: 50px;
     transform: rotateY(1deg);
-}
-.text-through :nth-of-type(2n) {
-    transform: rotateY(-1deg);
-}
-.text-through .below {
-    transform: translateZ(1px);
-}
-.text-through .over {
-    transform: translateZ(-1px);
-}
-</style>
-<div class="heart-through">
-  <i class="arrow"></i>
-  <span class="heart">♥</span>
-</div>
+  }
 
-<p class="text-through">
-  <i class="arrow"></i>
-  <span class="below">z</span><span>h</span><span>a</span><span>n</span><span>g</span><span class="below">f</span><span class="over">e</span><span>i</span>
-</p>
+  .text-through :nth-of-type(2n) {
+    transform: rotateY(-1deg);
+  }
+
+  .text-through .below {
+    transform: translateZ(1px);
+  }
+
+  .text-through .over {
+    transform: translateZ(-1px);
+  }
+</style>
+<body>
+
+  <div class="heart-through">
+    <i class="arrow"></i>
+    <span class="heart">♥</span>
+  </div>
+
+  <p class="text-through">
+    <i class="arrow"></i>
+    <span class="below">z</span><span>h</span><span>a</span><span>n</span><span>g</span><span
+      class="below">f</span><span class="over">e</span><span>i</span>
+  </p>
 </body>
+
 </html>
