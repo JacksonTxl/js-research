@@ -30,3 +30,8 @@ Object.defineProperty(book, 'year', {
 })
 book.year = 2018
 console.log(book.edition) // 2
+
+// 原型访问，判断是否有key值在对象中，并且不是在原型链中
+function hasPrototypeProperty(object, name) {
+  return !object.hasOwnProperty(name) && name in object
+}

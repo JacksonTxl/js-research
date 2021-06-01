@@ -16,16 +16,16 @@
 //   console.log(v);
 // }
 
-function *foo(x) {
+function* foo(x) {
   console.log(x)
-  const y = x * (yield);
-  return y;
+  const y = x * (yield)
+  return y
 }
 // 启动foo(...)
-const it = foo(6);
-it.next();
-const res = it.next(7);
-console.log(res.value);
+const it = foo(6)
+it.next()
+const res = it.next(7)
+// console.log(res.value)
 
 // 注释：
 
@@ -41,3 +41,18 @@ console.log(res.value);
 
 // 为什么会有这个不匹配呢？
 // 因为第一个 next()总是启动一个生成器，并运行到第一个 yield处。不过，是第二个 next(...)调用完第一个被暂定的yield表达式，第三个 next()调用完成第二个yield，以此类推。
+
+// 数组快速变成迭代器
+let arr = ['hello', 'world']
+let iter = arr[Symbol.iterator]()
+
+console.log(iter.next()) // { done: false, value: 'foo' }
+console.log(iter.next()) // { done: false, value: 'bar' }
+console.log(iter.next()) // { done: true, value: undefined }
+
+console.log(arr.reduce((pre, current) => pre + current))
+
+
+const map = new Map()
+const weakMap = new WeakMap()
+
