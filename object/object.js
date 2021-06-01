@@ -35,3 +35,17 @@ console.log(book.edition) // 2
 function hasPrototypeProperty(object, name) {
   return !object.hasOwnProperty(name) && name in object
 }
+
+// 重写构造函数上的原型之后再创建的实例才会引用新的原型。而在此之前创建的实例仍然会引用最初的原型。
+function Person() {}
+let friend = new Person()
+Person.prototype = {
+  constructor: Person,
+  name: 'Nicholas',
+  age: 29,
+  job: 'Software Engineer',
+  sayName() {
+    console.log(this.name)
+  }
+}
+friend.sayName() // 错误
