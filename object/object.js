@@ -49,3 +49,26 @@ Person.prototype = {
   }
 }
 friend.sayName() // 错误
+
+// 原型 构造函数  实例 三者之间的关系
+
+function SuperType() {
+  this.property = true
+}
+SuperType.prototype.getSuperValue = function () {
+  return this.property
+}
+function SubType() {
+  this.subproperty = false
+}
+// 继承 SuperType
+SubType.prototype = new SuperType()
+SubType.prototype.getSubValue = function () {
+  return this.subproperty
+}
+let instance = new SubType()
+// console.log(instance.getSuperValue()) // true
+
+
+
+
